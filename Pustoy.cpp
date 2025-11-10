@@ -2,13 +2,14 @@
 
 struct IntArray {
     void add(int i);
-    int get(size_t id) const;
-    size_t size() const;
-    int last() const;
+    int get(size_t id) const noexcept;
+    size_t size() const noexcept;
+    int last() const noexcept;
     IntArray(int i);
     ~IntArray();
     int * a;
     size_t k;
+    int at(size_t id()) const;
 };
 
 int main() {
@@ -36,13 +37,39 @@ int main() {
         catch (const std::bad_alloc()) {
             return 2;
         }
-
+        return 0;
     }
     IntArray::~IntArray() {
         delete[] a;
     }
     IntArray::IntArray(int i) : a(new int[1]), k(1)
     {
-        a[0] = i;
+        * a = i;
     }
+    int IntArray::get(size_t id) const noexcept
+    {
+        return a[id];
+    }
+
+    size_t IntArray::size() const noexcept
+    {
+        return k;
+    }
+
+    int IntArray::last() const noexcept
+    {
+        return get(size() - 1);
+    }
+
+    void IntArray::add(int i) {
+        int * tmp = new int[size() + 1];
+        for (size_t i = 0; i < size(); ++i)
+        {
+            tmp[i] = get(i);
+        }
+        delete[] a;
+        a = tmp;
+        ++k;
+    }
+
 }
