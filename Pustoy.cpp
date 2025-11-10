@@ -7,10 +7,11 @@ struct IntArray {
     int last() const;
     IntArray(int i);
     ~IntArray();
+    int * a;
+    size_t k;
 };
 
-int main()
-{
+int main() {
     int next = 0;
     std::cin >> next;
 
@@ -32,7 +33,12 @@ int main()
         }
         std::cout << count << "\n";
 
-        catch (const std::bad_alloc) {
+        catch (const std::bad_alloc()) {
             return 2;
         }
+
     }
+    IntArray::~IntArray() {
+        delete[] a;
+    }
+}
